@@ -17,14 +17,14 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    features = request.form['feature']
-    features = features.split(',')
+    features = request.form.getlist('feature')
+
     np_features = np.asarray(features, dtype=np.float32)
 
-    # prediction
     pred = model.predict(np_features.reshape(1, -1))
-    message = ['Cancrouse' if pred[0] == 1 else 'Not Cancrouse']
-    # print(message[0])
+
+    message = ['Cancerous' if pred[0] == 1 else 'Not Cancerous']
+
     return render_template('index.html', message=message)
 
 
